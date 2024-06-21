@@ -102,8 +102,7 @@ public class ConsoleUtils {
 	        System.out.println("FoodID: " + report.getString("foodId") + 
 	                           ", Name: " + report.getString("foodName") + 
 	                           ", Comments: " + report.getString("comments") + 
-	                           ", Average Rating: " + report.getDouble("averageRating") +
-	                           ", Sentiment Analysis: " + report.getString("sentimentAnalysis"));
+	                           ", Rating: " + report.getDouble("rating") );
 	    }
 	}
 	
@@ -113,8 +112,7 @@ public class ConsoleUtils {
 	        JSONObject menu = recommendedMenuList.getJSONObject(i);
 	        System.out.println("FoodID: " + menu.getString("foodId") +
 	                           ", Name: " + menu.getString("foodName") +
-	                           ", Rating: " + menu.getDouble("rating") +
-	                           ", Date: " + menu.getString("date"));
+	                           ", Rating: " + menu.getDouble("rating") );
 	    }
 	}
 	

@@ -12,10 +12,10 @@ import java.util.List;
 
 public class ChefService {
     FoodMenuOperations foodMenuOperations = new FoodMenuOperations();
-    RecommendedMenuOperations recommendedMenuOperations = new RecommendedMenuOperations();
+    RecommendedEngine recommendedEngine = new RecommendedEngine();
     RolloutMenuOperations rolloutMenuOperations = new RolloutMenuOperations();
     FeedbackOperations feedbackOperations = new FeedbackOperations();
-    ReportOperations reportOperations = new ReportOperations();
+    Report report = new Report();
 
 
     public JSONObject handleChefActions(JSONObject jsonRequest) {
@@ -29,11 +29,11 @@ public class ChefService {
     			jsonResponse.put("menu", menuItems);
     			break;
             case "GENERATE_RECOMMENDED_MENU":
-                boolean recommendedMenuGenerated = recommendedMenuOperations.generateRecommendedMenu();
+                boolean recommendedMenuGenerated = recommendedEngine.generateRecommendedMenu();
                 jsonResponse.put("success", recommendedMenuGenerated);
                 break;
             case "VIEW_RECOMMENDED_MENU":
-                JSONArray recommendedMenuArray = recommendedMenuOperations.getRecommendedMenu();
+                JSONArray recommendedMenuArray = recommendedEngine.getRecommendedMenu();
                 jsonResponse.put("success", true);
                 jsonResponse.put("recommendedMenu", recommendedMenuArray);
                 break;
@@ -53,12 +53,8 @@ public class ChefService {
                 jsonResponse.put("success", true);
                 jsonResponse.put("feedback", feedbackList);
                 break;
-            case "GENERATE_REPORT":
-            	boolean reportGenerated = reportOperations.generateReport();
-                jsonResponse.put("success", reportGenerated);
-                break;
             case "VIEW_REPORT":
-            	 JSONArray reportArray = reportOperations.getReports();
+            	 JSONArray reportArray = report.getReports();
                  jsonResponse.put("success", true);
                  jsonResponse.put("report", reportArray);
                  break;

@@ -25,9 +25,8 @@ public class ChefHandler {
         System.out.println("4. Add Items to Rollout Menu");
         System.out.println("5. View Rollout Menu");
         System.out.println("6. View Feedback");
-        System.out.println("7. Generate Report");
-        System.out.println("8. View Report");
-        System.out.println("9. Logout");
+        System.out.println("7. View Report");
+        System.out.println("8. Logout");
         
         int choice = ConsoleUtils.getIntInput("Enter your choice: ");
 
@@ -65,12 +64,9 @@ public class ChefHandler {
                 jsonRequest.put("chefAction", "VIEW_FEEDBACK");
                 break;
             case 7:
-                jsonRequest.put("chefAction", "GENERATE_REPORT");
-                break;
-            case 8:
                 jsonRequest.put("chefAction", "VIEW_REPORT");
                 break;
-            case 9 :
+            case 8 :
             	exit = true;
                 continue;
             default:
@@ -102,9 +98,6 @@ public class ChefHandler {
             	ConsoleUtils.printFeedback(jsonResponse.getJSONArray("feedback"));
         	}
             else if(choice == 7) {
-            	System.out.println("Successfully Feedback Report is generated");
-            }
-            else if(choice == 8) {
             	ConsoleUtils.printReport(jsonResponse.getJSONArray("report"));
         	}
         } else {

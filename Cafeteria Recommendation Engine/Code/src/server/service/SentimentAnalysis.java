@@ -1,58 +1,76 @@
 package server.service;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 public class SentimentAnalysis {
-	
-	private static final Set<String> positiveWords = new HashSet<>();
-    private static final Set<String> negativeWords = new HashSet<>();
 
-    static {
-    	
-    	positiveWords.add("tasty");
-    	positiveWords.add("delicious");
-        positiveWords.add("good");
-        positiveWords.add("best");
-        positiveWords.add("great");
-        positiveWords.add("happy");
-        positiveWords.add("wonderful");
-        positiveWords.add("excellent");
-        positiveWords.add("fantastic");
+    private static final Map<String, Double> positiveWords = new HashMap<>();
+    private static final Map<String, Double> negativeWords = new HashMap<>();
+    private static final Map<String, Double> negationWords = new HashMap<>();
 
-        negativeWords.add("tasteless");
-        negativeWords.add("bad");
-        negativeWords.add("dirty");
-        negativeWords.add("expensive");
-        negativeWords.add("awful");
-        negativeWords.add("sad");
-        negativeWords.add("terrible");
-        negativeWords.add("horrible");
+    static {       
+        positiveWords.put("good", 3.5);
+        positiveWords.put("happy", 4.0);
+        positiveWords.put("wonderful", 5.0);
+        positiveWords.put("excellent", 5.0);
+        positiveWords.put("tasty", 4.0);
+        positiveWords.put("delicious", 4.0);
+        positiveWords.put("best", 4.0);
+        positiveWords.put("great", 4.0);
+        positiveWords.put("fantastic", 5.0);
+        positiveWords.put("ok", 3.0);
+        positiveWords.put("average", 3.0);
 
+        negativeWords.put("bad", 2.0);
+        negativeWords.put("sad", 2.0);
+        negativeWords.put("terrible", 1.0);
+        negativeWords.put("horrible", 1.0);
+        negativeWords.put("poor", 2.0);
+        negativeWords.put("tasteless", 1.0);
+        negativeWords.put("dirty", 1.0);
+        negativeWords.put("expensive", 2.0);
+        negativeWords.put("awful", 1.0);  
+
+        negationWords.put("not", 0.0);
+        negationWords.put("never", 0.0);
+        negationWords.put("no", 0.0);
     }
 
-    public static String analyzeSentiment(String text) {
-        int score = 0;
+    public static double analyzeSentiment(String text) {
+        int scoreSum = 0;
+        int wordCount = 0;
+        boolean negation = false;
 
         StringTokenizer tokenizer = new StringTokenizer(text.toLowerCase());
         while (tokenizer.hasMoreTokens()) {
             String word = tokenizer.nextToken();
 
-            if (positiveWords.contains(word)) {
-                score += 1;
-            } else if (negativeWords.contains(word)) {
-                score -= 1;
+            if (negationWords.containsKey(word)) {
+                negation = !negation;
+                continue;
+            }
+
+            if (positiveWords.containsKey(word)) {
+                scoreSum += (negation ? -positiveWords.get(word) : positiveWords.get(word));
+                negation = false;
+                wordCount++;
+            } else if (negativeWords.containsKey(word)) {
+                scoreSum += (negation ? -negativeWords.get(word) : negativeWords.get(word));
+                negation = false;
+                wordCount++;
             }
         }
 
-        if (score > 0) {
-            return "Positive";
-        } else if (score < 0) {
-            return "Negative";
-        } else {
-            return "Neutral";
+        if (wordCount == 0) {
+            return 3.0; 
         }
-    }
 
+        double averageScore = (double) scoreSum / wordCount;
+
+        averageScore = Math.max(1, Math.min(5, averageScore));
+
+        return averageScore;
+    }
 }

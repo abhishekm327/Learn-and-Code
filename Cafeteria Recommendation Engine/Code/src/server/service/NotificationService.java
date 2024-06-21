@@ -28,7 +28,7 @@ public class NotificationService {
 	    }
 	}
 	
-	public List<Notification> getNotification() {
+	public List<Notification> getNotification() { 
         List<Notification> notificationList = new ArrayList<>();
         try (Connection connection = DatabaseConnection.getConnection()) {
             String query = "SELECT * FROM notifications WHERE notification_date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)";

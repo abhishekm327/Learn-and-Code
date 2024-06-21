@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.*;
 
-import server.model.Report;
-
 public class FeedbackOperations {
 
     public void provideFeedback(String foodId, String comment, double rating) {
