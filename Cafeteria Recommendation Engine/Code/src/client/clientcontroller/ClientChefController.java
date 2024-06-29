@@ -1,4 +1,4 @@
-package client;
+package client.clientcontroller;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,9 +10,9 @@ import java.util.Scanner;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import utils.ConsoleUtils;
+import client.utils.ConsoleUtils;
 
-public class ChefHandler {
+public class ClientChefController {
 	
 	static void handleChefActions(Scanner scanner, PrintWriter writer, BufferedReader reader) throws IOException {
 		

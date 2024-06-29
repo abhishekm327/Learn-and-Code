@@ -4,7 +4,8 @@ import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 
-import utils.ConsoleUtils;
+import client.clientcontroller.ClientUserController;
+import client.utils.ConsoleUtils;
 
 public class CafeteriaClient {
     public static void main(String[] args) {
@@ -26,7 +27,7 @@ public class CafeteriaClient {
                 int choice = ConsoleUtils.getIntInput("Enter your choice: ");
                 switch (choice) {
                     case 1:
-                    	UserHandler.authenticateUser(scanner, writer, reader);
+                    	ClientUserController.authenticateUser(scanner, writer, reader);
                         break;
                     case 2:
                         exit = true;

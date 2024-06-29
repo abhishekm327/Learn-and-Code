@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import server.database.DatabaseConnection;
+
 public class UserAuthenticationService {
 
     public boolean authenticate(String userId, String role, String password) {

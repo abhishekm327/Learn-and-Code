@@ -1,14 +1,13 @@
-package client;
+package client.clientcontroller;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-
 import org.json.JSONObject;
 
-import utils.ConsoleUtils;
+import client.utils.ConsoleUtils;
 
-public class EmployeeHandler {
+public class ClientEmployeeController {
 	
 	static void handleEmployeeActions(PrintWriter writer, BufferedReader reader) throws IOException {
 		

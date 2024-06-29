@@ -15,6 +15,7 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import server.database.DatabaseConnection;
 import server.model.Feedback;
 import server.model.RecommendedMenu;
 

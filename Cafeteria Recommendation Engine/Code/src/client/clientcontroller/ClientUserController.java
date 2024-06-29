@@ -1,17 +1,16 @@
-package client;
+package client.clientcontroller;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
-
 import org.json.JSONObject;
 
-import utils.ConsoleUtils;
+import client.utils.ConsoleUtils;
 
-public class UserHandler {
+public class ClientUserController {
 	
-	static boolean authenticateUser(Scanner scanner, PrintWriter writer, BufferedReader reader) throws IOException {
+	public static boolean authenticateUser(Scanner scanner, PrintWriter writer, BufferedReader reader) throws IOException {
         System.out.println("Select your role:");
         System.out.println("1. Admin");
         System.out.println("2. Chef");
@@ -64,13 +63,13 @@ public class UserHandler {
     private static void processRoleSpecificActions(String role, Scanner scanner, PrintWriter writer, BufferedReader reader) throws IOException {
         switch (role) {
             case "Admin":
-                AdminHandler.handleAdminActions(writer, reader);
+            	ClientAdminController.handleAdminActions(writer, reader);
                 break;
             case "Chef":
-                ChefHandler.handleChefActions(scanner, writer, reader);
+            	ClientChefController.handleChefActions(scanner, writer, reader);
                 break;
             case "Employee":
-                EmployeeHandler.handleEmployeeActions(writer, reader);
+            	ClientEmployeeController.handleEmployeeActions(writer, reader);
                 break;
             default:
                 System.out.println("Invalid role.");

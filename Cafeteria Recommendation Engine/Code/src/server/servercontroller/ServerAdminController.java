@@ -1,13 +1,12 @@
-package server.service;
+package server.servercontroller;
 
 import java.util.List;
-
 import org.json.JSONObject;
-
 import server.model.FoodMenu;
-import utils.ConsoleUtils;
+import server.service.FoodMenuOperations;
 
-public class AdminService {
+
+public class ServerAdminController {
     private final FoodMenuOperations foodMenuOperations = new FoodMenuOperations();
 
     public JSONObject handleAdminActions(JSONObject jsonRequest) {

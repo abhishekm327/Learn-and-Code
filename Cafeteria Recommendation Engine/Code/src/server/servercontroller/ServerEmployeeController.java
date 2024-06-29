@@ -1,4 +1,4 @@
-package server.service;
+package server.servercontroller;
 
 import java.util.List;
 
@@ -6,9 +6,10 @@ import org.json.JSONObject;
 
 import server.model.FoodMenu;
 import server.model.Notification;
-import utils.ConsoleUtils;
+import server.service.*;
 
-public class EmployeeService {
+
+public class ServerEmployeeController {
     RolloutMenuOperations rolloutMenuOperations = new RolloutMenuOperations();
     FeedbackOperations feedbackOperations = new FeedbackOperations();
     FoodMenuOperations foodMenuOperations = new FoodMenuOperations();

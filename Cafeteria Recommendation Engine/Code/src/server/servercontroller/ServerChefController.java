@@ -1,8 +1,9 @@
-package server.service;
+package server.servercontroller;
 
 import server.model.FoodMenu;
 import server.model.RolloutMenu;
 import server.model.Feedback;
+import server.service.*;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -10,7 +11,7 @@ import org.json.JSONObject;
 import java.util.List;
 
 
-public class ChefService {
+public class ServerChefController {
     FoodMenuOperations foodMenuOperations = new FoodMenuOperations();
     RecommendedEngine recommendedEngine = new RecommendedEngine();
     RolloutMenuOperations rolloutMenuOperations = new RolloutMenuOperations();

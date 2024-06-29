@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.json.JSONObject;
 
+import server.database.DatabaseConnection;
 import server.model.Notification;
 
 public class NotificationService {
