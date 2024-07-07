@@ -8,7 +8,7 @@ import client.utils.ConsoleUtils;
 
 public class ClientEmployeeController {
 
-    static void handleEmployeeActions(PrintWriter writer, BufferedReader reader) throws IOException {
+    static void handleEmployeeActions(PrintWriter writer, BufferedReader reader, String userId) throws IOException {
         boolean exit = false;
         while (!exit) {
         	displayMenu();
@@ -26,6 +26,7 @@ public class ClientEmployeeController {
                     break;
                 case 3:
                     jsonRequest.put("employeeAction", "VIEW_ROLLOUT_MENU");
+                    jsonRequest.put("userId", userId);
                     break;
                 case 4:
                     jsonRequest.put("employeeAction", "VOTE_ROLLOUT_ITEMS");
@@ -42,6 +43,9 @@ public class ClientEmployeeController {
                     jsonRequest.put("rating", rating);
                     break;
                 case 6:
+                    updateProfile(userId, jsonRequest);
+                	break;
+                case 7:
                     exit = true;
                     continue;
                 default:
@@ -60,7 +64,8 @@ public class ClientEmployeeController {
                 System.out.println("3. View Rollout Menu");
                 System.out.println("4. Vote for Rollout Items");
                 System.out.println("5. Provide Feedback");
-                System.out.println("6. Logout");	
+                System.out.println("6. Update your Profile");
+                System.out.println("7. Logout");	
             }
             
       private static void sendRequest(PrintWriter writer, JSONObject jsonRequest) {
@@ -81,9 +86,43 @@ public class ClientEmployeeController {
                     System.out.println("Thank you for your vote");
                 } else if (choice == 5) {
                     System.out.println("Thank you for your feedback");
+                } else if (choice == 6) {
+                    System.out.println("Your Profile is updated Successfully");
                 }
             } else {
                 System.out.println("Action failed: " + jsonResponse.getString("error"));
             }
       }
+      
+      private static JSONObject updateProfile(String userId, JSONObject jsonRequest) throws IOException {
+          String foodType = ConsoleUtils.getOptionInput(
+                  "Please select your Food preference type:",
+                  new String[] { "Vegetarian", "Non-Vegetarian", "Eggetarian" }
+              );
+
+              String spiceLevel = ConsoleUtils.getOptionInput(
+                  "Please select your spice level:",
+                  new String[] { "High", "Medium", "Low" }
+              );
+
+              String foodStyle = ConsoleUtils.getOptionInput(
+                  "Please select your Food Style:",
+                  new String[] { "North Indian", "South Indian", "Other" }
+              );
+
+              String sweet = ConsoleUtils.getOptionInput(
+                  "Do you have a sweet tooth?",
+                  new String[] { "Yes", "No" }
+              );
+
+          jsonRequest.put("employeeAction", "UPDATE_PROFILE");
+          jsonRequest.put("userId", userId);
+          jsonRequest.put("foodType", foodType);
+          jsonRequest.put("spiceLevel", spiceLevel);
+          jsonRequest.put("foodStyle", foodStyle);
+          jsonRequest.put("sweet", sweet);
+          
+          return jsonRequest;
+      }
 }
+      

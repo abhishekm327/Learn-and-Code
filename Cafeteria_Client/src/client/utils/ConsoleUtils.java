@@ -61,6 +61,21 @@ public class ConsoleUtils {
         return rating;
     }
     
+    public static String getOptionInput(String prompt, String[] options) {
+        while (true) {
+            System.out.println(prompt);
+            for (int i = 0; i < options.length; i++) {
+                System.out.println((i + 1) + ". " + options[i]);
+            }
+            int choice = getIntInput("Enter your choice: ");
+            if (choice > 0 && choice <= options.length) {
+                return options[choice - 1];
+            } else {
+                System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+    
 	public static void printMenuItems(JSONArray menuItems) {
         System.out.println("Menu Items:");
         for (int i = 0; i < menuItems.length(); i++) {

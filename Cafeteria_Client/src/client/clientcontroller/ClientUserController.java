@@ -27,7 +27,7 @@ public class ClientUserController {
         if (success) {
             String role = jsonResponse.getString("role");
             System.out.println("Login successful as " + role);
-            processRoleSpecificActions(role, writer, reader);
+            processRoleSpecificActions(role, writer, reader, userId);
             return true;
         } else {
             System.out.println("Login failed: " + jsonResponse.getString("error"));
@@ -35,7 +35,7 @@ public class ClientUserController {
         }
     }
 
-    private static void processRoleSpecificActions(String role, PrintWriter writer, BufferedReader reader) throws IOException {
+    private static void processRoleSpecificActions(String role, PrintWriter writer, BufferedReader reader, String userId) throws IOException {
         switch (role) {
             case "Admin":
             	ClientAdminController.handleAdminActions(writer, reader);
@@ -44,7 +44,7 @@ public class ClientUserController {
             	ClientChefController.handleChefActions(writer, reader);
                 break;
             case "Employee":
-            	ClientEmployeeController.handleEmployeeActions(writer, reader);
+            	ClientEmployeeController.handleEmployeeActions(writer, reader, userId);
                 break;
             default:
                 System.out.println("Invalid role.");

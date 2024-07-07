@@ -9,9 +9,6 @@ import client.utils.ConsoleUtils;
 public class ClientAdminController {
 
     static void handleAdminActions(PrintWriter writer, BufferedReader reader) throws IOException {
-        String foodId;
-        String foodName;
-        int price;
         boolean exit = false;
         while (!exit) {
         	displayMenu();
@@ -25,27 +22,13 @@ public class ClientAdminController {
                     jsonRequest.put("adminAction", "VIEW_MENU_ITEMS");
                     break;
                 case 2:
-                    foodId = ConsoleUtils.getStringInput("Enter Food Id: ");
-                    foodName = ConsoleUtils.getStringInput("Enter Food name: ");
-                    price = ConsoleUtils.getIntInput("Enter Food price: ");
-                    jsonRequest.put("adminAction", "ADD_MENU_ITEM");
-                    jsonRequest.put("foodId", foodId);
-                    jsonRequest.put("name", foodName);
-                    jsonRequest.put("price", price);
+                	addMenuItem(jsonRequest);
                     break;
                 case 3:
-                    foodId = ConsoleUtils.getStringInput("Enter Food Id: ");
-                    foodName = ConsoleUtils.getStringInput("Enter Food name: ");
-                    price = ConsoleUtils.getIntInput("Enter Food price: ");
-                    jsonRequest.put("adminAction", "UPDATE_MENU_ITEM");
-                    jsonRequest.put("foodId", foodId);
-                    jsonRequest.put("name", foodName);
-                    jsonRequest.put("price", price);
+                	updateMenuItem(jsonRequest);
                     break;
                 case 4:
-                    foodId = ConsoleUtils.getStringInput("Enter Food ID: ");
-                    jsonRequest.put("adminAction", "DELETE_MENU_ITEM");
-                    jsonRequest.put("foodId", foodId);
+                	deleteMenuItem(jsonRequest);
                     break;
                 case 5:
                     exit = true;
@@ -89,4 +72,56 @@ public class ClientAdminController {
                 System.out.println("Action failed: " + jsonResponse.getString("error"));
             }
         }
+    
+    private static JSONObject addMenuItem(JSONObject jsonRequest) {
+        return gatherFoodItemDetails(jsonRequest, "ADD_MENU_ITEM");
+    }
+
+    private static JSONObject updateMenuItem(JSONObject jsonRequest) {
+        return gatherFoodItemDetails(jsonRequest, "UPDATE_MENU_ITEM");
+    }
+    
+    private static JSONObject deleteMenuItem(JSONObject jsonRequest) {
+        String foodId = ConsoleUtils.getStringInput("Enter Food ID: ");
+        jsonRequest.put("adminAction", "DELETE_MENU_ITEM");
+        jsonRequest.put("foodId", foodId);
+        return jsonRequest;
+    }
+    
+    private static JSONObject gatherFoodItemDetails(JSONObject jsonRequest, String adminAction) {
+        String foodId = ConsoleUtils.getStringInput("Enter Food Id: ");
+        String foodName = ConsoleUtils.getStringInput("Enter Food name: ");
+        int price = ConsoleUtils.getIntInput("Enter Food price: ");
+        
+        String foodType = ConsoleUtils.getOptionInput(
+                "Please select the Food Type:",
+                new String[] { "Vegetarian", "Non-Vegetarian", "Eggetarian" }
+            );
+        String spiceLevel = ConsoleUtils.getOptionInput(
+                "Please select the Spice Level:",
+                new String[] { "High", "Medium", "Low" }
+            );
+
+        String foodStyle = ConsoleUtils.getOptionInput(
+                "Please select the Food Style:",
+                new String[] { "North Indian", "South Indian", "Other" }
+            );
+
+        String sweet = ConsoleUtils.getOptionInput(
+                "Is it Sweet?",
+                new String[] { "Yes", "No" }
+            );
+        
+        jsonRequest.put("adminAction", adminAction);
+        jsonRequest.put("foodId", foodId);
+        jsonRequest.put("name", foodName);
+        jsonRequest.put("price", price);
+        jsonRequest.put("foodType", foodType);
+        jsonRequest.put("spiceLevel", spiceLevel);
+        jsonRequest.put("foodStyle", foodStyle);
+        jsonRequest.put("sweet", sweet);
+
+        return jsonRequest;
+    }
+
 }

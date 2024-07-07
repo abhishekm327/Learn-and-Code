@@ -13,8 +13,11 @@ public class RolloutMenuDBOperation {
 	RecommendedMenuDBOperation recommendedMenuDBOperation = new RecommendedMenuDBOperation();
 
     public List<RolloutMenu> fetchRolloutItems() throws DatabaseException {
-        List<RolloutMenu> recommendedItems = new ArrayList<>();
-        String query = "SELECT * FROM rollout_menu ORDER BY vote DESC";
+        List<RolloutMenu> rolloutItems = new ArrayList<>();
+        String query = "SELECT rollout_menu.food_id, rollout_menu.food_name, rollout_menu.cooking_date, "
+        			+ "rollout_menu.rating, rollout_menu.vote, menu.food_type, menu.food_style, menu.spice_level, "
+        			+ "menu.sweet FROM rollout_menu INNER JOIN menu ON rollout_menu.food_id = menu.food_id "
+        			+ "ORDER BY rollout_menu.vote DESC";
         try (Connection connection = DatabaseConnection.getInstance().getConnection();
              PreparedStatement statement = connection.prepareStatement(query);
              ResultSet resultSet = statement.executeQuery()) {
@@ -24,12 +27,23 @@ public class RolloutMenuDBOperation {
                 Date cookingDate = resultSet.getDate("cooking_date");
                 double rating = resultSet.getDouble("rating");
                 int vote = resultSet.getInt("vote");
-                recommendedItems.add(new RolloutMenu(foodId, foodName, cookingDate, rating, vote));
+                String foodType = resultSet.getString("food_type");
+                String foodStyle = resultSet.getString("food_style");
+                String spiceLevel = resultSet.getString("spice_level");
+                String sweet = resultSet.getString("sweet");
+
+                RolloutMenu rolloutMenu = new RolloutMenu(foodId, foodName, cookingDate, rating, vote);
+                rolloutMenu.setFoodType(foodType);
+                rolloutMenu.setFoodStyle(foodStyle);
+                rolloutMenu.setSpiceLevel(spiceLevel);
+                rolloutMenu.setSweet(sweet);
+
+                rolloutItems.add(rolloutMenu);
             }
         } catch (SQLException e) {
             throw new DatabaseException("Error while fetching rollout items. Please try again later");
         }
-        return recommendedItems;
+        return rolloutItems;
     }
 
     public void insertRolloutMenuItems(JSONArray items, Date cookingDate) throws DatabaseException {

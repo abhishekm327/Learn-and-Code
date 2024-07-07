@@ -5,11 +5,13 @@ import server.database.FoodMenuDBOperation;
 import server.model.FoodMenu;
 import java.util.List;
 
+import org.json.JSONArray;
+
 public class FoodMenuService {
 	FoodMenuDBOperation foodMenuDBOperation = new FoodMenuDBOperation();
 	NotificationService notificationService = new NotificationService();
 
-    public List<FoodMenu> fetchFoodMenuItems() throws DatabaseException {
+    public JSONArray fetchFoodMenuItems() throws DatabaseException {
         return foodMenuDBOperation .fetchFoodMenuItems();
     }
 

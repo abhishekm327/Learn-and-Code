@@ -24,9 +24,9 @@ public class ServerChefController {
         try {
             switch (chefAction) {
                 case "VIEW_MENU_ITEMS":
-                    List<FoodMenu> menuItems = foodMenuService.fetchFoodMenuItems();
+                	JSONArray menuArray = foodMenuService.fetchFoodMenuItems();
                     jsonResponse.put("success", true);
-                    jsonResponse.put("menu", menuItems);
+                    jsonResponse.put("menu", menuArray);
                     break;
                 case "GENERATE_RECOMMENDED_MENU":
                     boolean recommendedMenuGenerated = recommendedEngine.generateRecommendedMenu();
@@ -44,7 +44,7 @@ public class ServerChefController {
                     jsonResponse.put("success", rolloutMenuUpdated);
                     break;
                 case "VIEW_ROLLOUT_MENU":
-                    List<RolloutMenu> rolloutItems = rolloutMenuService.fetchRolloutItems();
+                    List<RolloutMenu> rolloutItems = rolloutMenuService.viewAllRolloutItems();
                     jsonResponse.put("success", true);
                     jsonResponse.put("rolloutItems", rolloutItems);
                     break;
