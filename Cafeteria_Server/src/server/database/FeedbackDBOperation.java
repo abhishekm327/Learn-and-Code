@@ -9,14 +9,15 @@ import server.model.Feedback;
 
 public class FeedbackDBOperation {
 	
-    public void insertFeedback(String foodId, String comment, double rating) throws DatabaseException {
-        String query = "INSERT INTO feedback (food_id, comment, rating, feedback_date) VALUES (?, ?, ?, ?)";
+    public void insertFeedback(String foodId, String comment, double rating, String userId) throws DatabaseException {
+        String query = "INSERT INTO feedback (food_id, comment, rating, feedback_date, user_id) VALUES (?, ?, ?, ?, ?)";
         try (Connection connection = DatabaseConnection.getInstance().getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, foodId);
             statement.setString(2, comment);
             statement.setDouble(3, rating);
             statement.setDate(4, new java.sql.Date(new Date().getTime()));
+            statement.setString(5, userId);
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new DatabaseException("Error while inserting feedback, Please try again later");

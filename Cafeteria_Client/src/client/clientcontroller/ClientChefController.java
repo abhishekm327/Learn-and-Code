@@ -31,18 +31,7 @@ public class ClientChefController {
                     jsonRequest.put("chefAction", "VIEW_RECOMMENDED_MENU");
                     break;
                 case 4:
-                    jsonRequest.put("chefAction", "ADD_TO_ROLLOUT_MENU");
-                    int itemCount = ConsoleUtils.getIntInput("Enter number of items to recommend: ");
-                    List<JSONObject> items = new ArrayList<>();
-                    for (int i = 0; i < itemCount; i++) {
-                        JSONObject item = new JSONObject();
-                        String foodId = ConsoleUtils.getStringInput("Enter Food Id: ");
-                        item.put("foodId", foodId);
-                        items.add(item);
-                    }
-                    jsonRequest.put("items", new JSONArray(items));
-                    String cookingDate = ConsoleUtils.getStringInput("Enter Cooking Date (DD/MM/YYYY): ");
-                    jsonRequest.put("cookingDate", cookingDate);
+                	addToRolloutmenu(jsonRequest);
                     break;
                 case 5:
                     jsonRequest.put("chefAction", "VIEW_ROLLOUT_MENU");
@@ -105,4 +94,20 @@ public class ClientChefController {
                 System.out.println("Action failed: " + jsonResponse.getString("error"));
             }
         }
+       
+      private static JSONObject addToRolloutmenu(JSONObject jsonRequest) { 
+           jsonRequest.put("chefAction", "ADD_TO_ROLLOUT_MENU");
+           int itemCount = ConsoleUtils.getIntInput("Enter number of items to recommend: ");
+           List<JSONObject> items = new ArrayList<>();
+           for (int i = 0; i < itemCount; i++) {
+               JSONObject item = new JSONObject();
+               String foodId = ConsoleUtils.getStringInput("Enter Food Id: ");
+               item.put("foodId", foodId);
+               items.add(item);
+           }
+           jsonRequest.put("items", new JSONArray(items));
+           String cookingDate = ConsoleUtils.getStringInput("Enter Cooking Date (DD/MM/YYYY): ");
+           jsonRequest.put("cookingDate", cookingDate);
+           return jsonRequest;
+       }
 }

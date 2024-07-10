@@ -25,8 +25,7 @@ public class CafeteriaServerThread extends Thread {
                 writer.println(jsonResponse.toString());
             }
         } catch (IOException ex) {
-            System.out.println("Server exception: " + ex.getMessage());
-            ex.printStackTrace();
+            System.out.println("An error occurred processing client request");
         }
     }
 }

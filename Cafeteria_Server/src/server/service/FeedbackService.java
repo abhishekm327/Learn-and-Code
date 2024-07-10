@@ -8,8 +8,8 @@ import java.util.List;
 public class FeedbackService {
     FeedbackDBOperation feedbackDBOperation = new FeedbackDBOperation();
 
-    public void provideFeedback(String foodId, String comment, double rating) throws DatabaseException {
-    	feedbackDBOperation .insertFeedback(foodId, comment, rating);
+    public void provideFeedback(String foodId, String comment, double rating, String userId) throws DatabaseException {
+    	feedbackDBOperation .insertFeedback(foodId, comment, rating, userId);
     }
 
     public List<Feedback> viewFeedback() throws DatabaseException {

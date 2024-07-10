@@ -17,8 +17,7 @@ public class ServerMain {
                 new CafeteriaServerThread(socket).start();
             }
         } catch (IOException ex) {
-            System.out.println("Server exception: " + ex.getMessage());
-            ex.printStackTrace();
+            System.out.println("Error occurred in Server connection");
         }
     }
 }

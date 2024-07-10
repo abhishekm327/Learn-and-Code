@@ -29,18 +29,10 @@ public class ClientEmployeeController {
                     jsonRequest.put("userId", userId);
                     break;
                 case 4:
-                    jsonRequest.put("employeeAction", "VOTE_ROLLOUT_ITEMS");
-                    String foodId = ConsoleUtils.getStringInput("Enter Food Id: ");
-                    jsonRequest.put("foodId", foodId);
+                	voteForRolloutItems(jsonRequest);
                     break;
                 case 5:
-                    jsonRequest.put("employeeAction", "PROVIDE_FEEDBACK");
-                    String food_Id = ConsoleUtils.getStringInput("Enter Food Id: ");
-                    String comment = ConsoleUtils.getStringInput("Enter your comment: ");
-                    double rating = ConsoleUtils.getRatingInput("Enter Rating (1-5): ");
-                    jsonRequest.put("foodId", food_Id);
-                    jsonRequest.put("comment", comment);
-                    jsonRequest.put("rating", rating);
+                	provideFeedback(userId, jsonRequest);
                     break;
                 case 6:
                     updateProfile(userId, jsonRequest);
@@ -94,7 +86,28 @@ public class ClientEmployeeController {
             }
       }
       
-      private static JSONObject updateProfile(String userId, JSONObject jsonRequest) throws IOException {
+      private static JSONObject voteForRolloutItems(JSONObject jsonRequest) {
+          jsonRequest.put("employeeAction", "VOTE_ROLLOUT_ITEMS");
+          String foodId = ConsoleUtils.getStringInput("Enter Food Id: ");
+          jsonRequest.put("foodId", foodId);
+          
+          return jsonRequest;  
+      }
+      
+      private static JSONObject provideFeedback(String userId, JSONObject jsonRequest) {  
+          jsonRequest.put("employeeAction", "PROVIDE_FEEDBACK");
+          String foodId = ConsoleUtils.getStringInput("Enter Food Id: ");
+          String comment = ConsoleUtils.getStringInput("Enter your comment: ");
+          double rating = ConsoleUtils.getRatingInput("Enter Rating (1-5): ");
+          jsonRequest.put("foodId", foodId);
+          jsonRequest.put("comment", comment);
+          jsonRequest.put("rating", rating);
+          jsonRequest.put("userId", userId);
+          
+          return jsonRequest;
+      }
+      
+      private static JSONObject updateProfile(String userId, JSONObject jsonRequest) {
           String foodType = ConsoleUtils.getOptionInput(
                   "Please select your Food preference type:",
                   new String[] { "Vegetarian", "Non-Vegetarian", "Eggetarian" }
@@ -124,5 +137,6 @@ public class ClientEmployeeController {
           
           return jsonRequest;
       }
+      
 }
       

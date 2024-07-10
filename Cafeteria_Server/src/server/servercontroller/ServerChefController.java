@@ -1,6 +1,5 @@
 package server.servercontroller;
-
-import server.model.FoodMenu;
+ 
 import server.model.RecommendedMenu;
 import server.model.RolloutMenu;
 import server.database.DatabaseException;
@@ -11,11 +10,11 @@ import org.json.JSONObject;
 import java.util.List;
 
 public class ServerChefController {
-    FoodMenuService foodMenuService = new FoodMenuService();
-    RecommendedEngine recommendedEngine = new RecommendedEngine();
-    RolloutMenuService rolloutMenuService = new RolloutMenuService();
-    FeedbackService feedbackService = new FeedbackService();
-    DiscardMenuService discardMenuService = new DiscardMenuService();
+	private static FoodMenuService foodMenuService = new FoodMenuService();
+    private static RecommendedEngine recommendedEngine = new RecommendedEngine();
+    private static RolloutMenuService rolloutMenuService = new RolloutMenuService();
+    private static FeedbackService feedbackService = new FeedbackService();
+    private static DiscardMenuService discardMenuService = new DiscardMenuService();
 
     public JSONObject handleChefActions(JSONObject jsonRequest) {
         String chefAction = jsonRequest.getString("chefAction");
@@ -54,18 +53,7 @@ public class ServerChefController {
                     jsonResponse.put("feedback", feedbackList);
                     break;
                 case "VIEW_DISCARD_MENU_ITEMS":
-                    List<RecommendedMenu> discardList = recommendedEngine.getDiscardMenuItems();
-                    JSONArray discardArray = new JSONArray();
-                    for (RecommendedMenu item : discardList) {
-                        JSONObject jsonItem = new JSONObject();
-                        jsonItem.put("foodId", item.getFoodId());
-                        jsonItem.put("foodName", item.getFoodName());
-                        jsonItem.put("rating", item.getAverageRating());
-                        jsonItem.put("comments", new JSONArray(item.getComments()));
-                        discardArray.put(jsonItem);
-                    }
-                    jsonResponse.put("success", true);
-                    jsonResponse.put("discardList", discardArray);
+                	viewDiscardMenu(jsonResponse);
                     break;
                 case "REMOVE_DISCARD_FOOD_ITEM":
                     String foodItemNameToRemove = jsonRequest.getString("foodItemName");
@@ -91,5 +79,20 @@ public class ServerChefController {
         }
 
         return jsonResponse;
+    }
+    
+    private static void viewDiscardMenu(JSONObject jsonResponse) throws DatabaseException {
+        List<RecommendedMenu> discardList = recommendedEngine.getDiscardMenuItems();
+        JSONArray discardArray = new JSONArray();
+        for (RecommendedMenu item : discardList) {
+            JSONObject jsonItem = new JSONObject();
+            jsonItem.put("foodId", item.getFoodId());
+            jsonItem.put("foodName", item.getFoodName());
+            jsonItem.put("rating", item.getAverageRating());
+            jsonItem.put("comments", new JSONArray(item.getComments()));
+            discardArray.put(jsonItem);
+        }
+        jsonResponse.put("success", true);
+        jsonResponse.put("discardList", discardArray);	
     }
 }

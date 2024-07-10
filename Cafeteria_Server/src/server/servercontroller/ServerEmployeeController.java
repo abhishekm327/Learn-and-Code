@@ -10,11 +10,11 @@ import server.model.RolloutMenu;
 import server.service.*;
 
 public class ServerEmployeeController {
-    RolloutMenuService rolloutMenuService = new RolloutMenuService();
-    FeedbackService feedbackService = new FeedbackService();
-    FoodMenuService foodMenuService = new FoodMenuService();
-    NotificationService notificationService = new NotificationService();
-    ProfileService profileService = new ProfileService();
+	private static RolloutMenuService rolloutMenuService = new RolloutMenuService();
+    private static FeedbackService feedbackService = new FeedbackService();
+    private static FoodMenuService foodMenuService = new FoodMenuService();
+    private static NotificationService notificationService = new NotificationService();
+    private static ProfileService profileService = new ProfileService();
 
     public JSONObject handleEmployeeActions(JSONObject jsonRequest) {
         String employeeAction = jsonRequest.getString("employeeAction");
@@ -46,20 +46,10 @@ public class ServerEmployeeController {
                     jsonResponse.put("success", true);
                     break;
                 case "PROVIDE_FEEDBACK":
-                    String food_Id = jsonRequest.getString("foodId");
-                    String comment = jsonRequest.getString("comment");
-                    double rating = jsonRequest.getDouble("rating");
-                    feedbackService.provideFeedback(food_Id, comment, rating);
-                    jsonResponse.put("success", true);
+                	getFeedbackDetail(jsonRequest, jsonResponse);
                     break;
                 case "UPDATE_PROFILE":
-                    String user_Id = jsonRequest.getString("userId");
-                    String foodType = jsonRequest.getString("foodType");
-                    String spiceLevel = jsonRequest.getString("spiceLevel");
-                    String foodStyle = jsonRequest.getString("foodStyle");
-                    String sweet = jsonRequest.getString("sweet");
-                    profileService.updateProfile(user_Id, foodType, spiceLevel, foodStyle, sweet);
-                    jsonResponse.put("success", true);
+                	getProfileDetail(jsonRequest, jsonResponse);
                     break;
                 default:
                     jsonResponse.put("success", false);
@@ -75,5 +65,24 @@ public class ServerEmployeeController {
         }
 
         return jsonResponse;
+    }
+    
+    private static void getFeedbackDetail(JSONObject jsonRequest, JSONObject jsonResponse) throws DatabaseException {
+        String foodId = jsonRequest.getString("foodId");
+        String comment = jsonRequest.getString("comment");
+        double rating = jsonRequest.getDouble("rating");
+        String userId = jsonRequest.getString("userId");
+        feedbackService.provideFeedback(foodId, comment, rating, userId);
+        jsonResponse.put("success", true);  	
+    }
+    
+    private static void getProfileDetail(JSONObject jsonRequest, JSONObject jsonResponse) throws DatabaseException {
+        String userId = jsonRequest.getString("userId");
+        String foodType = jsonRequest.getString("foodType");
+        String spiceLevel = jsonRequest.getString("spiceLevel");
+        String foodStyle = jsonRequest.getString("foodStyle");
+        String sweet = jsonRequest.getString("sweet");
+        profileService.updateProfile(userId, foodType, spiceLevel, foodStyle, sweet);
+        jsonResponse.put("success", true);
     }
 }
