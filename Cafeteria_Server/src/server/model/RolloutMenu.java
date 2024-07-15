@@ -3,73 +3,73 @@ package server.model;
 import java.util.Date;
 
 public class RolloutMenu {
-    private String foodId;
-    private String name;
-    private Date cookingDate;
-    private double rating;
-    private int vote;
-    private String foodType;
-    private String foodStyle;
-    private String spiceLevel;
-    private String sweet;
+	private String foodId;
+	private String name;
+	private Date cookingDate;
+	private double rating;
+	private int vote;
+	private String foodType;
+	private String foodStyle;
+	private String spiceLevel;
+	private String sweet;
 
-    public RolloutMenu(String foodId, String name, Date cookingDate, double rating, int vote) {
-        this.foodId = foodId;
-        this.name = name;
-        this.cookingDate = cookingDate;
-        this.rating=rating;
-        this.vote = vote;
-    }
+	public RolloutMenu(String foodId, String name, Date cookingDate, double rating, int vote) {
+		this.foodId = foodId;
+		this.name = name;
+		this.cookingDate = cookingDate;
+		this.rating = rating;
+		this.vote = vote;
+	}
 
-    public String getFoodId() {
-        return foodId;
-    }
+	public String getFoodId() {
+		return foodId;
+	}
 
-    public String getName() {
-        return name;
-    }
-    
-    public double getRating() {
-        return rating;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public Date getCookingDate() {
-        return cookingDate;
-    }
+	public double getRating() {
+		return rating;
+	}
 
-    public int getVote() {
-        return vote;
-    }
-    
-    public String getFoodType() {
-        return foodType;
-    }
+	public Date getCookingDate() {
+		return cookingDate;
+	}
 
-    public void setFoodType(String foodType) {
-        this.foodType = foodType;
-    }
+	public int getVote() {
+		return vote;
+	}
 
-    public String getFoodStyle() {
-        return foodStyle;
-    }
+	public String getFoodType() {
+		return foodType;
+	}
 
-    public void setFoodStyle(String foodStyle) {
-        this.foodStyle = foodStyle;
-    }
+	public void setFoodType(String foodType) {
+		this.foodType = foodType;
+	}
 
-    public String getSpiceLevel() {
-        return spiceLevel;
-    }
+	public String getFoodStyle() {
+		return foodStyle;
+	}
 
-    public void setSpiceLevel(String spiceLevel) {
-        this.spiceLevel = spiceLevel;
-    }
+	public void setFoodStyle(String foodStyle) {
+		this.foodStyle = foodStyle;
+	}
 
-    public String getSweet() {
-        return sweet;
-    }
+	public String getSpiceLevel() {
+		return spiceLevel;
+	}
 
-    public void setSweet(String sweet) {
-        this.sweet = sweet;
-    }
+	public void setSpiceLevel(String spiceLevel) {
+		this.spiceLevel = spiceLevel;
+	}
+
+	public String getSweet() {
+		return sweet;
+	}
+
+	public void setSweet(String sweet) {
+		this.sweet = sweet;
+	}
 }

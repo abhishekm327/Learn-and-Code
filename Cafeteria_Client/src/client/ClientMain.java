@@ -2,8 +2,7 @@ package client;
 
 import java.io.*;
 import java.net.Socket;
-
-import client.clientcontroller.ClientUserController;
+import client.controller.ClientUserController;
 import client.utils.ConsoleUtils;
 
 public class ClientMain {
@@ -36,7 +35,8 @@ public class ClientMain {
 				}
 			}
 		} catch (IOException ex) {
-			System.out.println("An unexpected error occurred while trying to communicate with the server. Please try again later.");
+			System.out.println(
+					"An unexpected error occurred while trying to communicate with the server. Please try again later.");
 		}
 	}
 }

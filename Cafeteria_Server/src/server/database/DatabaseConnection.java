@@ -5,41 +5,37 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConnection {
-    private static final String URL = System.getenv("CAFE_DB_URL"); 
-    private static final String USER = System.getenv("CAFE_DB_USER"); 
-    private static final String PASSWORD = System.getenv("CAFE_DB_PASSWORD");
-    
-    private static DatabaseConnection dbInstance;
-    private Connection connection;
+	private static final String URL = System.getenv("CAFE_DB_URL");
+	private static final String USER = System.getenv("CAFE_DB_USER");
+	private static final String PASSWORD = System.getenv("CAFE_DB_PASSWORD");
 
-    private DatabaseConnection() throws SQLException {
-        try {
-            this.connection = DriverManager.getConnection(URL, USER, PASSWORD);
-        } catch (SQLException e) {
-            throw new SQLException("Failed to create a database connection. Check the connection & Try Again");
-        }
-    }
+	private static DatabaseConnection dbInstance;
+	private Connection connection;
 
-    public static DatabaseConnection getInstance() throws SQLException {
-                if (dbInstance == null) {
-                	dbInstance = new DatabaseConnection();
-                }
-                else if (dbInstance.getConnection().isClosed()) {
-                		 dbInstance = new DatabaseConnection();
-                }
-        return dbInstance;
-    }
+	private DatabaseConnection() throws SQLException {
+		try {
+			this.connection = DriverManager.getConnection(URL, USER, PASSWORD);
+		} catch (SQLException e) {
+			throw new SQLException("Failed to create a database connection. Check the connection & Try Again");
+		}
+	}
 
-    public Connection getConnection() {
-        return connection;
-    }
+	public static DatabaseConnection getInstance() throws SQLException {
+		if (dbInstance == null) {
+			dbInstance = new DatabaseConnection();
+		} else if (dbInstance.getConnection().isClosed()) {
+			dbInstance = new DatabaseConnection();
+		}
+		return dbInstance;
+	}
 
-    public void closeConnection() throws SQLException {
-        if (connection != null && !connection.isClosed()) {
-            connection.close();
-        }
-    }
+	public Connection getConnection() {
+		return connection;
+	}
+
+	public void closeConnection() throws SQLException {
+		if (connection != null && !connection.isClosed()) {
+			connection.close();
+		}
+	}
 }
-
-
-
