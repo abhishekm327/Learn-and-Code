@@ -1,11 +1,16 @@
 package server.database;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import server.database.exception.DatabaseException;
 import server.model.RecommendedMenu;
-import java.sql.*;
-import java.util.List;
 
 public class RecommendedMenuDBOperation {
 
@@ -14,7 +19,7 @@ public class RecommendedMenuDBOperation {
 		try (Connection connection = DatabaseConnection.getInstance().getConnection();
 				PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery)) {
 			deleteStatement.executeUpdate();
-		} catch (SQLException e) {
+		} catch (SQLException exception) {
 			throw new DatabaseException("Error while clearing previous recommendations");
 		}
 	}
@@ -31,27 +36,8 @@ public class RecommendedMenuDBOperation {
 				insertStatement.addBatch();
 			}
 			insertStatement.executeBatch();
-		} catch (SQLException e) {
+		} catch (SQLException exception) {
 			throw new DatabaseException("Error while inserting recommended items. Please try again later");
-		}
-	}
-
-	public JSONObject selectRecommendedItem(Connection connection, String foodId) throws DatabaseException {
-		String selectQuery = "SELECT food_id, food_name, rating FROM recommended_menu WHERE food_id = ?";
-		try (PreparedStatement selectStatement = connection.prepareStatement(selectQuery)) {
-			selectStatement.setString(1, foodId);
-			ResultSet resultSet = selectStatement.executeQuery();
-			if (resultSet.next()) {
-				JSONObject foodItem = new JSONObject();
-				foodItem.put("foodId", resultSet.getString("food_id"));
-				foodItem.put("foodName", resultSet.getString("food_name"));
-				foodItem.put("rating", resultSet.getDouble("rating"));
-				return foodItem;
-			} else {
-				throw new DatabaseException("Food ID not found in Menu: " + foodId);
-			}
-		} catch (SQLException e) {
-			throw new DatabaseException("Error while Selecting from recommended menu item");
 		}
 	}
 
@@ -69,7 +55,7 @@ public class RecommendedMenuDBOperation {
 				menuJson.put("comment", resultSet.getString("comment"));
 				recommendedMenuArray.put(menuJson);
 			}
-		} catch (SQLException e) {
+		} catch (SQLException exception) {
 			throw new DatabaseException("Error while fetching recommended menu. Please try again later");
 		}
 		return recommendedMenuArray;

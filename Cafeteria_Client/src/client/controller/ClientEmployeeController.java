@@ -3,7 +3,9 @@ package client.controller;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+
 import org.json.JSONObject;
+
 import client.utils.ConsoleUtils;
 
 public class ClientEmployeeController {
@@ -38,6 +40,9 @@ public class ClientEmployeeController {
 				updateProfile(userId, jsonRequest);
 				break;
 			case 7:
+				provideFeedbackForDiscardMenu(userId, jsonRequest);
+				break;
+			case 8:
 				exit = true;
 				continue;
 			default:
@@ -55,9 +60,10 @@ public class ClientEmployeeController {
 		System.out.println("2. View Notifications");
 		System.out.println("3. View Rollout Menu");
 		System.out.println("4. Vote for Rollout Items");
-		System.out.println("5. Provide Feedback");
+		System.out.println("5. Provide Feedback for Food");
 		System.out.println("6. Update your Profile");
-		System.out.println("7. Logout");
+		System.out.println("7. Provide Feedback for Discard Menu Item");
+		System.out.println("8. Logout");
 	}
 
 	private static void sendRequest(PrintWriter writer, JSONObject jsonRequest) {
@@ -76,13 +82,20 @@ public class ClientEmployeeController {
 				ConsoleUtils.printRolloutMenuItems(jsonResponse.getJSONArray("rolloutMenu"));
 			} else if (choice == 4) {
 				System.out.println("Thank you for your vote");
+				System.out.println("----------------------------------------------------");
 			} else if (choice == 5) {
 				System.out.println("Thank you for your feedback");
+				System.out.println("-----------------------------------------------------");
 			} else if (choice == 6) {
 				System.out.println("Your Profile is updated Successfully");
+				System.out.println("------------------------------------------------------");
+			} else if (choice == 7) {
+				System.out.println("Thank you for your feedback for Discard Menu Item");
+				System.out.println("-------------------------------------------------------");
 			}
 		} else {
 			System.out.println("Action failed: " + jsonResponse.getString("error"));
+			System.out.println("-----------------------------------------------------------");
 		}
 	}
 
@@ -123,6 +136,20 @@ public class ClientEmployeeController {
 		jsonRequest.put("foodStyle", foodStyle);
 		jsonRequest.put("spiceLevel", spiceLevel);
 		jsonRequest.put("sweet", sweet);
+		return jsonRequest;
+	}
+
+	private static JSONObject provideFeedbackForDiscardMenu(String userId, JSONObject jsonRequest) {
+		jsonRequest.put("employeeAction", "DISCARD_MENU_FEEDBACK");
+		String foodId = ConsoleUtils.getStringInput("Enter Food Id: ");
+		String dislikedAspects = ConsoleUtils.getStringInput("What did not you like about this Food? ");
+		String preferredTaste = ConsoleUtils.getStringInput("How would you like to taste this Food? ");
+		String momRecipe = ConsoleUtils.getStringInput("Share your mom’s recipe. ");
+		jsonRequest.put("foodId", foodId);
+		jsonRequest.put("dislikedAspects", dislikedAspects);
+		jsonRequest.put("preferredTaste", preferredTaste);
+		jsonRequest.put("momRecipe", momRecipe);
+		jsonRequest.put("userId", userId);
 		return jsonRequest;
 	}
 }

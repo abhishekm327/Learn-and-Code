@@ -63,13 +63,17 @@ public class ClientAdminController {
 				ConsoleUtils.printMenuItems(jsonResponse.getJSONArray("menu"));
 			} else if (choice == 2) {
 				System.out.println("Successfully added food item to menu");
+				System.out.println("-----------------------------------------------------");
 			} else if (choice == 3) {
 				System.out.println("Successfully updated food item in menu");
+				System.out.println("-----------------------------------------------------");
 			} else if (choice == 4) {
 				System.out.println("Successfully deleted food item in menu");
+				System.out.println("-----------------------------------------------------");
 			}
 		} else {
 			System.out.println("Action failed: " + jsonResponse.getString("error"));
+			System.out.println("-----------------------------------------------------------");
 		}
 	}
 

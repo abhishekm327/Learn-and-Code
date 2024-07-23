@@ -147,15 +147,34 @@ public class ConsoleUtils {
 
 	public static void displayDiscardMenuItems(JSONArray discardList) {
 		System.out.println("----------------------------------------------------------------------------------------");
-		System.out.printf("%-10s %-25s %-10s %-30s%n", "FoodID", "Name", "Rating", "Sentiments");
+		System.out.printf("%-10s %-25s %-10s %-30s%n", "FoodID", "Name", "Rating", "Comments");
 		System.out.println("----------------------------------------------------------------------------------------");
 
 		for (int i = 0; i < discardList.length(); i++) {
 			JSONObject item = discardList.getJSONObject(i);
-			String sentiments = item.getJSONArray("comments").join(", ");
+			String comments = item.getJSONArray("comments").join(" | ");
 			System.out.format("%-10s %-25s %-10.1f %-30s%n", item.getString("foodId"), item.getString("foodName"),
-					item.getDouble("rating"), sentiments);
+					item.getDouble("rating"), comments);
 		}
 		System.out.println("----------------------------------------------------------------------------------------");
+	}
+
+	public static void printDiscardMenuFeedback(JSONArray feedbacks) {
+		System.out.println(
+				"----------------------------------------------------------------------------------------------------------------------------");
+		System.out.printf("%-10s %-10s %-25s %-25s %-25s %-10s %-10s%n", "FoodID", "Food Name", "Disliked Aspects",
+				"Preferred Taste", "Mom Recipe", "User Id", "Feedback Date");
+		System.out.println(
+				"----------------------------------------------------------------------------------------------------------------------------");
+
+		for (int i = 0; i < feedbacks.length(); i++) {
+			JSONObject feedback = feedbacks.getJSONObject(i);
+			System.out.format("%-10s %-10s %-25s %-25s %-25s %-10s %-10s%n", feedback.getString("foodId"),
+					feedback.getString("foodName"), feedback.getString("dislikedAspects"),
+					feedback.getString("preferredTaste"), feedback.getString("momRecipe"), feedback.getString("userId"),
+					feedback.getString("feedbackDate"));
+		}
+		System.out.println(
+				"-----------------------------------------------------------------------------------------------------------------------------");
 	}
 }

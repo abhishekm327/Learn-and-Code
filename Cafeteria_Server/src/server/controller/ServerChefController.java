@@ -67,6 +67,11 @@ public class ServerChefController {
 				feedbackService.askDetailedFeedbackForDiscardMenu(foodItemNameForFeedback);
 				jsonResponse.put("success", true);
 				break;
+			case VIEW_DISCARD_MENU_FEEDBACK:
+				JSONArray discardMenuFeedbackArray = feedbackService.viewDiscardMenuFeedback();
+				jsonResponse.put("success", true);
+				jsonResponse.put("discardMenuFeedback", discardMenuFeedbackArray);
+				break;
 			default:
 				jsonResponse.put("success", false);
 				jsonResponse.put("error", "Invalid chef action");
@@ -76,6 +81,7 @@ public class ServerChefController {
 			jsonResponse.put("success", false);
 			jsonResponse.put("error", databaseException.getMessage());
 		} catch (Exception exception) {
+			exception.printStackTrace();
 			jsonResponse.put("success", false);
 			jsonResponse.put("error", "Error is occuring, Please try again later");
 		}

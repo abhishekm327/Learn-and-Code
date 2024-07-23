@@ -43,6 +43,9 @@ public class ClientChefController {
 				jsonRequest.put("chefAction", "VIEW_DISCARD_MENU_ITEMS");
 				break;
 			case 8:
+				jsonRequest.put("chefAction", "VIEW_DISCARD_MENU_FEEDBACK");
+				break;
+			case 9:
 				exit = true;
 				continue;
 			default:
@@ -63,7 +66,8 @@ public class ClientChefController {
 		System.out.println("5. View Rollout Menu");
 		System.out.println("6. View Feedback");
 		System.out.println("7. View Discard Menu Items");
-		System.out.println("8. Logout");
+		System.out.println("8. View Discard Menu Feedback");
+		System.out.println("9. Logout");
 	}
 
 	private static void sendRequest(PrintWriter writer, JSONObject jsonRequest) {
@@ -78,10 +82,12 @@ public class ClientChefController {
 				ConsoleUtils.printMenuItems(jsonResponse.getJSONArray("menu"));
 			} else if (choice == 2) {
 				System.out.println("Successfully generated recommended menu");
+				System.out.println("-----------------------------------------------------");
 			} else if (choice == 3) {
 				ConsoleUtils.printRecommendedMenu(jsonResponse.getJSONArray("recommendedMenu"));
 			} else if (choice == 4) {
 				System.out.println("Successfully created rollout menu and sent notification to employees");
+				System.out.println("--------------------------------------------------------------------------");
 			} else if (choice == 5) {
 				ConsoleUtils.printRolloutMenuItems(jsonResponse.getJSONArray("rolloutItems"));
 			} else if (choice == 6) {
@@ -89,9 +95,12 @@ public class ClientChefController {
 			} else if (choice == 7) {
 				ClientDiscardMenuController.handleDiscardMenuItems(jsonResponse.getJSONArray("discardList"), writer,
 						reader);
+			} else if (choice == 8) {
+				ConsoleUtils.printDiscardMenuFeedback(jsonResponse.getJSONArray("discardMenuFeedback"));
 			}
 		} else {
 			System.out.println("Action failed: " + jsonResponse.getString("error"));
+			System.out.println("------------------------------------------------------------------");
 		}
 	}
 

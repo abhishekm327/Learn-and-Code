@@ -1,10 +1,16 @@
 package server.database;
 
-import server.database.exception.DatabaseException;
-import server.model.FoodMenu;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import server.database.exception.DatabaseException;
+import server.model.FoodMenu;
 
 public class FoodMenuDBOperation {
 	public JSONArray fetchFoodMenuItems() throws DatabaseException {
@@ -20,7 +26,7 @@ public class FoodMenuDBOperation {
 				menuJson.put("price", resultSet.getInt("price"));
 				menuArray.put(menuJson);
 			}
-		} catch (SQLException e) {
+		} catch (SQLException exception) {
 			throw new DatabaseException("Error while fetching the FoodMenu Items. Please try again later");
 		}
 		return menuArray;
@@ -38,8 +44,10 @@ public class FoodMenuDBOperation {
 			statement.setString(6, item.getSpiceLevel());
 			statement.setString(7, item.getSweet());
 			statement.executeUpdate();
-		} catch (SQLException e) {
+		} catch (SQLIntegrityConstraintViolationException integrityException) {
 			throw new DatabaseException("Error in Adding FoodMenu Item -  This FoodId Already exist");
+		} catch (SQLException exception) {
+			throw new DatabaseException("Error while Adding FoodMenu Item. Please try again later");
 		}
 	}
 
@@ -54,9 +62,12 @@ public class FoodMenuDBOperation {
 			statement.setString(5, item.getSpiceLevel());
 			statement.setString(6, item.getSweet());
 			statement.setString(7, item.getFoodId());
-			statement.executeUpdate();
-		} catch (SQLException e) {
-			throw new DatabaseException("Error in Updating FoodMenu Item. Please try again later");
+			int rowsUpdated = statement.executeUpdate();
+			if (rowsUpdated == 0) {
+				throw new DatabaseException("This foodId does not found. Please Enter valid FoodId from Menu");
+			}
+		} catch (SQLException exception) {
+			throw new DatabaseException("Error while Updating FoodMenu Item. Please try again later");
 		}
 	}
 
@@ -65,9 +76,30 @@ public class FoodMenuDBOperation {
 		try (Connection connection = DatabaseConnection.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement(query)) {
 			statement.setString(1, foodId);
-			statement.executeUpdate();
-		} catch (SQLException e) {
-			throw new DatabaseException("Error in Deleting FoodMenu Item. Please try again later");
+			int rowsDeleted = statement.executeUpdate();
+			if (rowsDeleted == 0) {
+				throw new DatabaseException("This foodId does not found. Please Enter valid FoodId from Menu");
+			}
+		} catch (SQLException exception) {
+			throw new DatabaseException("Error while Deleting FoodMenu Item. Please try again later");
+		}
+	}
+
+	public JSONObject selectMenuItem(Connection connection, String foodId) throws DatabaseException {
+		String selectQuery = "SELECT food_id, food_name FROM menu WHERE food_id = ?";
+		try (PreparedStatement selectStatement = connection.prepareStatement(selectQuery)) {
+			selectStatement.setString(1, foodId);
+			ResultSet resultSet = selectStatement.executeQuery();
+			if (resultSet.next()) {
+				JSONObject foodItem = new JSONObject();
+				foodItem.put("foodId", resultSet.getString("food_id"));
+				foodItem.put("foodName", resultSet.getString("food_name"));
+				return foodItem;
+			} else {
+				throw new DatabaseException("FoodID " + foodId + " does not found in Menu. Please Enter valid FoodId");
+			}
+		} catch (SQLException exception) {
+			throw new DatabaseException("Error while Selecting from menu item. Please try again later");
 		}
 	}
 }

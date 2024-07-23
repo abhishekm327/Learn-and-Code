@@ -1,13 +1,19 @@
 package server.controller;
 
 import java.util.List;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
-import server.enums.ActionType;
+
 import server.database.exception.DatabaseException;
+import server.enums.ActionType;
 import server.model.Notification;
 import server.model.RolloutMenu;
-import server.service.*;
+import server.service.FeedbackService;
+import server.service.FoodMenuService;
+import server.service.NotificationService;
+import server.service.ProfileService;
+import server.service.RolloutMenuService;
 
 public class ServerEmployeeController {
 	private static RolloutMenuService rolloutMenuService = new RolloutMenuService();
@@ -45,10 +51,16 @@ public class ServerEmployeeController {
 				jsonResponse.put("success", true);
 				break;
 			case PROVIDE_FEEDBACK:
-				getFeedbackDetail(jsonRequest, jsonResponse);
+				feedbackService.provideFeedback(jsonRequest);
+				jsonResponse.put("success", true);
 				break;
 			case UPDATE_PROFILE:
-				getProfileDetail(jsonRequest, jsonResponse);
+				profileService.updateProfile(jsonRequest);
+				jsonResponse.put("success", true);
+				break;
+			case DISCARD_MENU_FEEDBACK:
+				feedbackService.provideFeedbackForDiscardMenu(jsonRequest);
+				jsonResponse.put("success", true);
 				break;
 			default:
 				jsonResponse.put("success", false);
@@ -63,24 +75,5 @@ public class ServerEmployeeController {
 			jsonResponse.put("error", "Error is occuring, Please try again later");
 		}
 		return jsonResponse;
-	}
-
-	private static void getFeedbackDetail(JSONObject jsonRequest, JSONObject jsonResponse) throws DatabaseException {
-		String foodId = jsonRequest.getString("foodId");
-		String comment = jsonRequest.getString("comment");
-		double rating = jsonRequest.getDouble("rating");
-		String userId = jsonRequest.getString("userId");
-		feedbackService.provideFeedback(foodId, comment, rating, userId);
-		jsonResponse.put("success", true);
-	}
-
-	private static void getProfileDetail(JSONObject jsonRequest, JSONObject jsonResponse) throws DatabaseException {
-		String userId = jsonRequest.getString("userId");
-		String foodType = jsonRequest.getString("foodType");
-		String foodStyle = jsonRequest.getString("foodStyle");
-		String spiceLevel = jsonRequest.getString("spiceLevel");
-		String sweet = jsonRequest.getString("sweet");
-		profileService.updateProfile(userId, foodType, foodStyle, spiceLevel, sweet);
-		jsonResponse.put("success", true);
 	}
 }

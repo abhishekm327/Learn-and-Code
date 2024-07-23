@@ -26,6 +26,7 @@ public class RecommendedEngine {
 	}
 
 	private void calculateResultantScores() throws DatabaseException {
+		recommendMap.clear();
 		populateRecommendMapFromFeedback();
 		for (RecommendedMenu recommendedMenu : recommendMap.values()) {
 			String combinedComments = String.join(" | ", recommendedMenu.getComments());
@@ -70,6 +71,7 @@ public class RecommendedEngine {
 
 	public List<RecommendedMenu> getDiscardMenuItems() throws DatabaseException {
 		List<RecommendedMenu> discardList = new ArrayList<>();
+		recommendMap.clear();
 		populateRecommendMapFromFeedback();
 		for (RecommendedMenu menu : recommendMap.values()) {
 			if (menu.getAverageRating() < 2 || containsHighlyNegativeSentiments(menu.getComments())) {

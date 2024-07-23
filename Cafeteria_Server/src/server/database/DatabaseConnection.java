@@ -15,7 +15,7 @@ public class DatabaseConnection {
 	private DatabaseConnection() throws SQLException {
 		try {
 			this.connection = DriverManager.getConnection(URL, USER, PASSWORD);
-		} catch (SQLException e) {
+		} catch (SQLException exception) {
 			throw new SQLException("Failed to create a database connection. Check the connection & Try Again");
 		}
 	}

@@ -6,18 +6,16 @@ public class RolloutMenu {
 	private String foodId;
 	private String name;
 	private Date cookingDate;
-	private double rating;
 	private int vote;
 	private String foodType;
 	private String foodStyle;
 	private String spiceLevel;
 	private String sweet;
 
-	public RolloutMenu(String foodId, String name, Date cookingDate, double rating, int vote) {
+	public RolloutMenu(String foodId, String name, Date cookingDate, int vote) {
 		this.foodId = foodId;
 		this.name = name;
 		this.cookingDate = cookingDate;
-		this.rating = rating;
 		this.vote = vote;
 	}
 
@@ -27,10 +25,6 @@ public class RolloutMenu {
 
 	public String getName() {
 		return name;
-	}
-
-	public double getRating() {
-		return rating;
 	}
 
 	public Date getCookingDate() {

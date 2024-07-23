@@ -4,24 +4,26 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import org.json.JSONObject;
+
 import server.database.exception.DatabaseException;
 import server.model.Profile;
 
 public class ProfileDBOperation {
 
-	public void updateProfile(String userId, String foodType, String foodStyle, String spiceLevel, String sweet)
-			throws DatabaseException {
-		String query = "INSERT INTO profile (user_id, food_type, food_style, spice_level, sweet) VALUES (?, ?, ?, ?, ?)";
+	public void updateProfile(JSONObject jsonRequest) throws DatabaseException {
+		String query = "UPDATE profile SET food_type = ?, food_style = ?, spice_level = ?,  sweet = ? WHERE user_id = ?";
 		try (Connection connection = DatabaseConnection.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement(query)) {
-			statement.setString(1, userId);
-			statement.setString(2, foodType);
-			statement.setString(3, foodStyle);
-			statement.setString(4, spiceLevel);
-			statement.setString(5, sweet);
+			statement.setString(1, jsonRequest.getString("foodType"));
+			statement.setString(2, jsonRequest.getString("foodStyle"));
+			statement.setString(3, jsonRequest.getString("spiceLevel"));
+			statement.setString(4, jsonRequest.getString("sweet"));
+			statement.setString(5, jsonRequest.getString("userId"));
 			statement.executeUpdate();
-		} catch (SQLException e) {
-			throw new DatabaseException("Error while updating Profile, Please try again later");
+		} catch (SQLException exception) {
+			throw new DatabaseException("Error while updating profile. Please try again later");
 		}
 	}
 

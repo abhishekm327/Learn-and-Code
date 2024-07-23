@@ -1,10 +1,15 @@
 package server.database;
 
-import server.database.exception.DatabaseException;
-import server.model.Notification;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+
+import server.database.exception.DatabaseException;
+import server.model.Notification;
 
 public class NotificationDBOperation {
 
@@ -14,7 +19,7 @@ public class NotificationDBOperation {
 				PreparedStatement statement = connection.prepareStatement(query)) {
 			statement.setString(1, message);
 			statement.executeUpdate();
-		} catch (SQLException e) {
+		} catch (SQLException exception) {
 			throw new DatabaseException("Error while inserting notification. Please try again later");
 		}
 	}
@@ -31,7 +36,7 @@ public class NotificationDBOperation {
 				Timestamp notificationDate = resultSet.getTimestamp("notification_date");
 				notificationList.add(new Notification(notificationId, message, notificationDate));
 			}
-		} catch (SQLException e) {
+		} catch (SQLException exception) {
 			throw new DatabaseException("Error while fetching notifications. Please try again later");
 		}
 		return notificationList;

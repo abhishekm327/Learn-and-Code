@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import org.json.JSONObject;
 
 public class UserDBOperation {
@@ -22,7 +23,7 @@ public class UserDBOperation {
 			} else {
 				userInfo.put("exist", false);
 			}
-		} catch (SQLException e) {
+		} catch (SQLException exception) {
 			userInfo.put("exist", false);
 			userInfo.put("error", "Database error. Plesae try again Later");
 		}
