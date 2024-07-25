@@ -2,6 +2,7 @@ package client.utils;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -133,15 +134,18 @@ public class ConsoleUtils {
 	}
 
 	public static void printNotifications(JSONArray notificationList) {
-		System.out.println("-----------------------------------------------------------------------------------");
-		System.out.printf("%-60s %-25s%n", "Message", "Date");
-		System.out.println("-----------------------------------------------------------------------------------");
+		System.out.println(
+				"-------------------------------------------------------------------------------------------------------");
+		System.out.printf("%-75s %-25s%n", "Message", "Date");
+		System.out.println(
+				"-------------------------------------------------------------------------------------------------------");
 
 		for (int i = 0; i < notificationList.length(); i++) {
 			JSONObject notification = notificationList.getJSONObject(i);
-			System.out.format("%-60s %-25s%n", notification.getString("message"),
+			System.out.format("%-75s %-25s%n", notification.getString("message"),
 					notification.getString("notificationDate"));
-			System.out.println("-----------------------------------------------------------------------------------");
+			System.out.println(
+					"---------------------------------------------------------------------------------------------------");
 		}
 	}
 

@@ -3,7 +3,9 @@ package client.controller;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+
 import org.json.JSONObject;
+
 import client.utils.ConsoleUtils;
 
 public class ClientAdminController {
@@ -31,6 +33,9 @@ public class ClientAdminController {
 				deleteMenuItem(jsonRequest);
 				break;
 			case 5:
+				jsonRequest.put("adminAction", "VIEW_DISCARD_MENU_NOTIFICATIONS");
+				break;
+			case 6:
 				exit = true;
 				continue;
 			default:
@@ -48,7 +53,8 @@ public class ClientAdminController {
 		System.out.println("2. Add Menu Item");
 		System.out.println("3. Update Menu Item");
 		System.out.println("4. Delete Menu Item");
-		System.out.println("5. Logout");
+		System.out.println("5. View Discard Menu Notification");
+		System.out.println("6. Logout");
 	}
 
 	private static void sendRequest(PrintWriter writer, JSONObject jsonRequest) {
@@ -70,6 +76,8 @@ public class ClientAdminController {
 			} else if (choice == 4) {
 				System.out.println("Successfully deleted food item in menu");
 				System.out.println("-----------------------------------------------------");
+			} else if (choice == 5) {
+				ConsoleUtils.printNotifications(jsonResponse.getJSONArray("notifications"));
 			}
 		} else {
 			System.out.println("Action failed: " + jsonResponse.getString("error"));

@@ -41,4 +41,22 @@ public class NotificationDBOperation {
 		}
 		return notificationList;
 	}
+
+	public List<Notification> fetchDiscardMenuNotifications() throws DatabaseException {
+		List<Notification> notificationList = new ArrayList<>();
+		String query = "SELECT * FROM notifications WHERE notification_date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY) AND message LIKE '%removed%low ratings%' ORDER BY notification_date DESC";
+		try (Connection connection = DatabaseConnection.getInstance().getConnection();
+				PreparedStatement statement = connection.prepareStatement(query);
+				ResultSet resultSet = statement.executeQuery()) {
+			while (resultSet.next()) {
+				int notificationId = resultSet.getInt("notification_id");
+				String message = resultSet.getString("message");
+				Timestamp notificationDate = resultSet.getTimestamp("notification_date");
+				notificationList.add(new Notification(notificationId, message, notificationDate));
+			}
+		} catch (SQLException exception) {
+			throw new DatabaseException("Error while fetching notifications. Please try again later");
+		}
+		return notificationList;
+	}
 }

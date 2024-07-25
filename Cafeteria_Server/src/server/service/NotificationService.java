@@ -1,9 +1,10 @@
 package server.service;
 
+import java.util.List;
+
 import server.database.NotificationDBOperation;
 import server.database.exception.DatabaseException;
 import server.model.Notification;
-import java.util.List;
 
 public class NotificationService {
 	NotificationDBOperation notificationDBOperation = new NotificationDBOperation();
@@ -12,12 +13,16 @@ public class NotificationService {
 		notificationDBOperation.insertNotification(message);
 	}
 
+	public void sendNotificationForDiscardMenu(String foodName) throws DatabaseException {
+		String message = "Food item \"" + foodName + "\" will be removed from the menu because of low ratings";
+		sendNotification(message);
+	}
+
 	public List<Notification> getNotification() throws DatabaseException {
 		return notificationDBOperation.fetchRecentNotifications();
 	}
 
-	public void sendNotificationForDiscardMenu(String foodName) throws DatabaseException {
-		String message = "Food item " + foodName + " will be remove from the menu because of less Ratings";
-		sendNotification(message);
+	public List<Notification> getDiscardMenuNotification() throws DatabaseException {
+		return notificationDBOperation.fetchDiscardMenuNotifications();
 	}
 }

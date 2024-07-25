@@ -1,12 +1,13 @@
 package server.service;
 
-import server.database.FeedbackDBOperation;
-import server.database.exception.DatabaseException;
-import server.model.Feedback;
 import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import server.database.FeedbackDBOperation;
+import server.database.exception.DatabaseException;
+import server.model.Feedback;
 
 public class FeedbackService {
 	FeedbackDBOperation feedbackDBOperation = new FeedbackDBOperation();
@@ -27,11 +28,11 @@ public class FeedbackService {
 				+ "?\n" + "Q2. How would you like " + foodName + " to taste?\n" + "Q3. Share your mom's recipe.";
 		notificationService.sendNotification(message);
 	}
-	
+
 	public void provideFeedbackForDiscardMenu(JSONObject jsonRequest) throws DatabaseException {
 		feedbackDBOperation.insertDiscardMenuFeedback(jsonRequest);
 	}
-	
+
 	public JSONArray viewDiscardMenuFeedback() throws DatabaseException {
 		return feedbackDBOperation.fetchDiscardMenuFeedback();
 	}

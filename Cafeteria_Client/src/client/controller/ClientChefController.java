@@ -5,8 +5,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import client.utils.ConsoleUtils;
 
 public class ClientChefController {
@@ -106,7 +108,7 @@ public class ClientChefController {
 
 	private static JSONObject addToRolloutmenu(JSONObject jsonRequest) {
 		jsonRequest.put("chefAction", "ADD_TO_ROLLOUT_MENU");
-		int itemCount = ConsoleUtils.getIntInput("Enter number of items to recommend: ");
+		int itemCount = ConsoleUtils.getIntInput("Enter number of items to Rollout: ");
 		List<JSONObject> items = new ArrayList<>();
 		for (int i = 0; i < itemCount; i++) {
 			JSONObject item = new JSONObject();

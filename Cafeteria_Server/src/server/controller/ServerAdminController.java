@@ -1,14 +1,20 @@
 package server.controller;
 
+import java.util.List;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
-import server.enums.ActionType;
+
 import server.database.exception.DatabaseException;
+import server.enums.ActionType;
 import server.model.FoodMenu;
+import server.model.Notification;
 import server.service.FoodMenuService;
+import server.service.NotificationService;
 
 public class ServerAdminController {
 	private static FoodMenuService foodMenuService = new FoodMenuService();
+	private static NotificationService notificationService = new NotificationService();
 
 	public JSONObject handleAdminActions(JSONObject jsonRequest) {
 		String adminActionStr = jsonRequest.getString("adminAction");
@@ -32,6 +38,11 @@ public class ServerAdminController {
 				String foodId = jsonRequest.getString("foodId");
 				foodMenuService.deleteFoodMenuItem(foodId);
 				jsonResponse.put("success", true);
+				break;
+			case VIEW_DISCARD_MENU_NOTIFICATIONS:
+				List<Notification> notifications = notificationService.getDiscardMenuNotification();
+				jsonResponse.put("success", true);
+				jsonResponse.put("notifications", notifications);
 				break;
 			default:
 				jsonResponse.put("success", false);
